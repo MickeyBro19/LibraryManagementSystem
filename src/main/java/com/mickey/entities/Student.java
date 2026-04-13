@@ -17,15 +17,11 @@ public class Student extends User{
 
     Scanner sc = new Scanner(System.in);
 
-    public void issueBook(){
-        System.out.println("Enter Book Title to issue");
-        String title=sc.nextLine();
-        bookService.borrowBook(title);
+    public void issueBook(String bookName){
+        bookService.borrowBook(bookName);
     }
 
-    public void returnBook(){
-        System.out.println("Enter Book Title to return");
-        String title=sc.nextLine();
-        bookService.returnBook(title);
+    public void returnBook(String bookName){
+        bookService.returnBook(bookName);
     }
 }

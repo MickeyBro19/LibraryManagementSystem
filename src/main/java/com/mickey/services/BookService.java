@@ -16,6 +16,19 @@ public class BookService {
         return books;
     }
 
+    public Book findBook(String title) {
+        Book foundBook= books.stream()
+                .filter(book -> book.getTitle().equalsIgnoreCase(title))
+                .findFirst()
+                .orElse(null);
+        if(foundBook==null) {
+            System.out.println("Book not found");
+            return null;
+        }
+        return foundBook;
+
+    }
+
     public void borrowBook(String title) {
         Book foundBook = books.stream()
                 .filter(book -> book.getTitle().equalsIgnoreCase(title))

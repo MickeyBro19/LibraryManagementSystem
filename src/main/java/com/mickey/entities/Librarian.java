@@ -19,10 +19,8 @@ public class Librarian extends User{
     }
 
 
-    public void addBook() {
-        System.out.println("Enter Book Title to add");
-        String title=sc.nextLine();
-        bookService.addBook(new  Book(title));
+    public void addBook(String bookName) {
+        bookService.addBook(new  Book(bookName));
     }
 
     public void getBooks() {
@@ -34,5 +32,16 @@ public class Librarian extends User{
             return;
         }
         System.out.println("Book list empty");
+    }
+
+    public void findBook(String bookName) {
+        Book book=bookService.findBook(bookName);
+        if(book!=null){
+            System.out.println(book.toString());
+            return;
+        }
+        System.out.println("Book not found");
+
+
     }
 }
