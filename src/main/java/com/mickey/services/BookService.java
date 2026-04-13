@@ -1,6 +1,7 @@
 package com.mickey.services;
 
 import com.mickey.entities.Book;
+import com.mickey.entities.Student;
 
 import java.util.ArrayList;
 
@@ -29,36 +30,44 @@ public class BookService {
 
     }
 
-    public void borrowBook(String title) {
-        Book foundBook = books.stream()
-                .filter(book -> book.getTitle().equalsIgnoreCase(title))
-                .findFirst()
-                .orElse(null);
+    public void borrowBook(String title, Student student) {
 
-        if (foundBook == null) {
-            System.out.println("Book not found");
+        Book book = findBook(title);
+        if (book == null) return;
+
+        if (student.getBorrowedBooks().size() >= 2) {
+            System.out.println("Limit reached");
             return;
         }
 
-        if (foundBook.isIssued()) {
-            System.out.println("Book already issued");
+        if (book.isIssued()) {
+            System.out.println("Already issued");
             return;
         }
 
-        foundBook.setIssued(true);
-        System.out.println("Book borrowed successfully");
+        book.setIssued(true);
+        book.setIssuedToStudentId(student.getId());
+
+        student.getBorrowedBooks().add(book);
+
+        System.out.println("Book issued successfully");
     }
 
-    public void returnBook(String title) {
-        Book foundBook= books.stream()
-                .filter(book -> book.getTitle().equalsIgnoreCase(title))
-                .findFirst()
-                .orElse(null);
-        if(foundBook==null){
-            System.out.println("Book not found");
+    public void returnBook(String title, Student student) {
+
+        Book book = findBook(title);
+        if (book == null) return;
+
+        if (book.getIssuedToStudentId() != student.getId()) {
+            System.out.println("You didn't borrow this book");
             return;
         }
-        foundBook.setIssued(false);
+
+        book.setIssued(false);
+        book.setIssuedToStudentId(-1);
+
+        student.getBorrowedBooks().removeIf(b -> b.getId() == book.getId());
+
         System.out.println("Book returned successfully");
     }
 }

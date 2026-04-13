@@ -3,11 +3,9 @@ package com.mickey.entities;
 import com.mickey.services.BookService;
 
 import java.util.ArrayList;
-import java.util.Scanner;
 
 public class Librarian extends User{
     BookService bookService;
-    Scanner sc=new Scanner(System.in);
 
     public Librarian(BookService bookService) {
         this.bookService = bookService;
